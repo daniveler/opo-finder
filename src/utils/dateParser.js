@@ -1,4 +1,4 @@
-import { parse, format } from 'date-fns'
+import { format } from 'date-fns'
 
 const dateParser = (inputDate) => {
   return format(inputDate, 'yyyyMMdd')

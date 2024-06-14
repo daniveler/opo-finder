@@ -1,10 +1,12 @@
-const Header = ({children}) => {
+const Header = () => {
   return (
     <header>
-      <nav className="flex flex-row justify-center items-center gap-x-8 mt-8 py-6 font-medium text-pink-500 bg-pink-200">
-        <a href="/boe">BOE</a>
-        <a href="/bocyl">BOCyL</a>
-        <a href="/bops">BOPs</a>
+      <nav className="mt-8 font-medium text-pink-500 bg-pink-200">
+        <div className="flex flex-row w-[800px] justify-center items-center">
+          <a className="w-1/3 py-6 hover:bg-pink-100 text-center" href="/boe">BOE</a>
+          <a className="w-1/3 py-6 hover:bg-pink-100 text-center" href="/bocyl">BOCyL</a>
+          <a className="w-1/3 py-6 hover:bg-pink-100 text-center" href="/bops">BOPs</a>
+        </div>
       </nav>
     </header>
   )

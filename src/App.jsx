@@ -7,21 +7,17 @@ import Section from "./components/Section"
 import { format } from "date-fns"
 import DatePicker from "./components/DatePicker"
 import Bocyl from "./components/bocyl/Bocyl"
+import getBoeSections from "./utils/getBoeSections"
 
 function App() {
   let actualDate = format(new Date(), 'yyyy-MM-dd')
 
   const [date, setDate] = useState(actualDate)
-  const [boeParsedDate, setBoeParsedDate] = useState(null)
-  const [bocylParsedDate, setBocylParsedDate] = useState(null)
-  const [boe, setBoe] = useState(null)
   const [bocyl, setBocyl] = useState(null)
   const [sections, setSections] = useState([])
 
   const handleDateChange = (e) => {
     setDate(e.target.value)
-    setBoeParsedDate(dateParser(e.target.value))
-    setBocylParsedDate(format(e.target.value, 'yyyy/MM/dd'))
   }
 
   const handleSearchButton = async (e) => {
@@ -31,17 +27,12 @@ function App() {
       alert('Por favor, introduzca una fecha')
     }
     else {
-      const boeXml = await boeService.getBoeFromId(`BOE-S-${boeParsedDate}`)
+      setSections(await getBoeSections(date))
 
-      const boeJson = xml2js(boeXml, { compact: true, spaces: 2 })
-
-      setBoe(boeJson)
-
-      const personalSection = boeJson.sumario.diario.seccion.find(s => s._attributes.num === '2B')
-
-      setSections([personalSection])
+      const bocylParsedDate = format(date, 'yyyy/MM/dd')
 
       const bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
+
       setBocyl(bocylJson)
     }
   }

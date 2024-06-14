@@ -5,7 +5,7 @@ const Epigraph = (props) => {
   return (
     Array.isArray(props.epigraph.item)
       ? props.epigraph.item.map((item, index) =>
-        <div className="mb-4">
+        <div key={index + "div"} className="mb-4">
           <li key={index + "-li"} className="text-base text-justify ml-2">
             {item.titulo._text}
           </li>
@@ -14,7 +14,7 @@ const Epigraph = (props) => {
         </div>
 
       )
-      : <div className="mb-4">
+      : <div key="0-div" className="mb-4">
         <li key="0-li" className="text-base text-justify ml-2">
           {props.epigraph.item.titulo._text}
         </li>

@@ -1,7 +1,7 @@
 const Bocyl = (props) => {
   return (
-    props.bocyl.results.map(result => (
-      <div>
+    props.bocyl.results.map((result, index) => (
+      <div key={index}>
         <p className="text-2xl mt-2 mb-2">{result.organismo}</p>
         <li>{result.titulo}</li>
         <div className="mt-2">

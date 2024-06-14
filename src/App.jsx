@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
-import boeService from './services/boe'
 import bocylService from './services/bocyl'
-import { xml2js } from "xml-js"
-import dateParser from "./utils/dateParser"
 import Section from "./components/Section"
 import { format } from "date-fns"
 import DatePicker from "./components/DatePicker"
@@ -15,6 +12,20 @@ function App() {
   const [date, setDate] = useState(actualDate)
   const [bocyl, setBocyl] = useState(null)
   const [sections, setSections] = useState([])
+
+  useEffect(() => {
+    const fetchData = async() => {
+      setSections(await getBoeSections(date))
+
+      const bocylParsedDate = format(date, 'yyyy/MM/dd')
+
+      const bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
+
+      setBocyl(bocylJson)
+    }
+
+    fetchData()
+  }, [])
 
   const handleDateChange = (e) => {
     setDate(e.target.value)

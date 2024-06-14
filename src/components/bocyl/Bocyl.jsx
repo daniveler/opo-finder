@@ -1,6 +1,29 @@
+import { useEffect, useState } from "react"
+import useStore from "../../useStore"
 import Results from "./Results"
+import { format } from "date-fns/format"
+import bocylService from "../../services/bocyl"
 
-const Bocyl = ({ bocyl }) => {
+const Bocyl = () => {
+  const [bocyl, setBocyl] = useState(null)
+
+  const { date, setDate } = useStore(state => ({
+    date: state.date,
+    setDate: state.setDate
+  }))
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const bocylParsedDate = format(date, 'yyyy/MM/dd')
+
+      const bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
+
+      setBocyl(bocylJson)
+    }
+
+    fetchData()
+  }, [date])
+
   return bocyl && bocyl.total_count > 0 
     ? (
       <div>

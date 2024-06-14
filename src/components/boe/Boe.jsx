@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Section from './Section'
+import getBoeSections from '../../utils/getBoeSections'
+import useStore from '../../useStore'
 
-function Boe({sections}) {
+function Boe() {
+  const [sections, setSections] = useState([])
+
+  const { date, setDate } = useStore(state => ({
+    date: state.date,
+    setDate: state.setDate
+  }))
+
+  useEffect(() => {
+    const fetchData = async() => {
+      setSections(await getBoeSections(date))
+    }
+
+    fetchData()
+  }, [date])
+
   return (
     sections.length > 0 && (
       <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">

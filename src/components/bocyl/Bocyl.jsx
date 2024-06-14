@@ -7,9 +7,8 @@ import bocylService from "../../services/bocyl"
 const Bocyl = () => {
   const [bocyl, setBocyl] = useState(null)
 
-  const { date, setDate } = useStore(state => ({
+  const { date } = useStore(state => ({
     date: state.date,
-    setDate: state.setDate
   }))
 
   useEffect(() => {

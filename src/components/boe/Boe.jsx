@@ -6,9 +6,8 @@ import useStore from '../../useStore'
 function Boe() {
   const [sections, setSections] = useState([])
 
-  const { date, setDate } = useStore(state => ({
+  const { date } = useStore(state => ({
     date: state.date,
-    setDate: state.setDate
   }))
 
   useEffect(() => {

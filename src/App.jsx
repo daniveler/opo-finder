@@ -3,8 +3,11 @@ import bocylService from './services/bocyl'
 import Section from "./components/boe/Section"
 import { format } from "date-fns"
 import DatePicker from "./components/boe/DatePicker"
-import Bocyl from "./components/bocyl/Bocyl"
+import Bocyl from "./components/bocyl/Bocyl.jsx"
 import getBoeSections from "./utils/getBoeSections"
+import Header from "./components/Header"
+import Boe from "./components/boe/Boe.jsx"
+import { Navigate, Route, Routes } from "react-router-dom"
 
 function App() {
   let actualDate = format(new Date(), 'yyyy-MM-dd')
@@ -55,6 +58,8 @@ function App() {
           Opo Finder
         </h1>
 
+        <Header /> 
+
         <form className="mt-8" onSubmit={handleSearchButton}>
           <label htmlFor="dateInput">Selecciona una fecha:</label>
           {/* <DatePicker max={actualDate} value={date} onChange={handleDateChange}/>  */}
@@ -70,36 +75,21 @@ function App() {
         </form>
       </div>
 
-      {/* BOCYL */}
       <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
-        { bocyl && bocyl.total_count > 0 && (
-          <div>
-            <div>
-              <h1 className="flex text-5xl justify-center my-4">
-                BOCYL
-              </h1>
-            </div>
-            <div>
-              <Bocyl bocyl={bocyl} />
-            </div>
-          </div>
-        )}
+      <Routes>
+        <Route path="/" element={ <Navigate replace to="/boe" /> } />
+        <Route path="/boe" element={ <Boe sections={sections} /> } />
+        <Route path="/bocyl" element={ <Bocyl bocyl={bocyl} /> } />
+      </Routes>
+      
 
-        {/* BOE */}
-        {sections.length > 0 && (
-          <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
-            <div>
-              <h1 className="flex text-5xl justify-center my-4">
-                BOE
-              </h1>
-              </div>
-              <div>
-                {sections.map((section, index) =>
-                  <Section key={index} section={section} />
-                )}
-            </div>
-         </div>
-        )}
+
+      {/* BOCYL */}
+      {/* { bocyl && bocyl.total_count > 0 && <Bocyl bocyl={bocyl} /> } */}
+
+      {/* BOE */}
+      {/* { sections.length > 0 && <Boe sections={sections} /> } */}
+
       </div>
     </div>
   )

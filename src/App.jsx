@@ -9,14 +9,14 @@ import DatePicker from "./components/DatePicker"
 import Bocyl from "./components/bocyl/Bocyl"
 
 function App() {
-  const [date, setDate] = useState('')
+  let actualDate = format(new Date(), 'yyyy-MM-dd')
+
+  const [date, setDate] = useState(actualDate)
   const [boeParsedDate, setBoeParsedDate] = useState(null)
   const [bocylParsedDate, setBocylParsedDate] = useState(null)
   const [boe, setBoe] = useState(null)
   const [bocyl, setBocyl] = useState(null)
   const [sections, setSections] = useState([])
-
-  let actualDate = format(new Date(), 'yyyy-MM-dd')
 
   const handleDateChange = (e) => {
     setDate(e.target.value)
@@ -36,7 +36,10 @@ function App() {
       const boeJson = xml2js(boeXml, { compact: true, spaces: 2 })
 
       setBoe(boeJson)
-      setSections([boeJson.sumario.diario.seccion[2]])
+
+      const personalSection = boeJson.sumario.diario.seccion.find(s => s._attributes.num === '2B')
+
+      setSections([personalSection])
 
       const bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
       setBocyl(bocylJson)
@@ -67,15 +70,32 @@ function App() {
 
       {/* BOCYL */}
       <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
-        <div>
-          { bocyl && <Bocyl bocyl={bocyl} />}
-        </div>
+        { bocyl && bocyl.total_count > 0 && (
+          <div>
+            <div>
+              <h1 className="flex text-5xl justify-center my-4">
+                BOCYL
+              </h1>
+            </div>
+            <div>
+              <Bocyl bocyl={bocyl} />
+            </div>
+          </div>
+        )}
 
         {/* BOE */}
-        <div className="flex mb-12 min-w-[400px] max-w-[800px]">
-          {sections.length > 0 && sections.map((section, index) =>
-            <Section key={index} section={section} />
-          )}
+        <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
+          <div>
+            <h1 className="flex text-5xl justify-center my-4">
+              BOE
+            </h1>
+          </div>
+          <div>
+            {sections.length > 0 && sections.map((section, index) =>
+              <Section key={index} section={section} />
+            )}
+          </div>
+          
         </div>
       </div>
 

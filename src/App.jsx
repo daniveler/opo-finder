@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import bocylService from './services/bocyl'
-import Section from "./components/Section"
+import Section from "./components/boe/Section"
 import { format } from "date-fns"
-import DatePicker from "./components/DatePicker"
+import DatePicker from "./components/boe/DatePicker"
 import Bocyl from "./components/bocyl/Bocyl"
 import getBoeSections from "./utils/getBoeSections"
 
@@ -86,21 +86,21 @@ function App() {
         )}
 
         {/* BOE */}
-        <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
-          <div>
-            <h1 className="flex text-5xl justify-center my-4">
-              BOE
-            </h1>
-          </div>
-          <div>
-            {sections.length > 0 && sections.map((section, index) =>
-              <Section key={index} section={section} />
-            )}
-          </div>
-          
-        </div>
+        {sections.length > 0 && (
+          <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
+            <div>
+              <h1 className="flex text-5xl justify-center my-4">
+                BOE
+              </h1>
+              </div>
+              <div>
+                {sections.map((section, index) =>
+                  <Section key={index} section={section} />
+                )}
+            </div>
+         </div>
+        )}
       </div>
-
     </div>
   )
 }

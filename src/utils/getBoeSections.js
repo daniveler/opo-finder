@@ -5,6 +5,11 @@ import boeService from '../services/boe'
 // Gets the desired sections of the BOE
 // Now only personal section is returned
 const getBoeSections = async(date) => {
+  const parsedDate = new Date(date)
+  if(parsedDate.getDay() === 0) {
+    return []
+  }
+
   const boeParsedDate = format(date, 'yyyyMMdd')
 
   const boeXml = await boeService.getBoeFromId(`BOE-S-${boeParsedDate}`)

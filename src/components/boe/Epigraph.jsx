@@ -20,8 +20,6 @@ const Epigraph = (props) => {
         </li>
         <Links key="0-links" pdf={props.epigraph.item.urlPdf._text} html={props.epigraph.item.urlHtm._text} />
       </div>
-
-
   )
 }
 

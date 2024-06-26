@@ -1,5 +1,6 @@
 import DatePicker from "./components/boe/DatePicker"
 import Bocyl from "./components/bocyl/Bocyl.jsx"
+import Bops from "./components/bops/Bops.jsx"
 import Header from "./components/Header"
 import Boe from "./components/boe/Boe.jsx"
 import { Navigate, Route, Routes } from "react-router-dom"
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={ <Navigate replace to="/boe" /> } />
           <Route path="/boe" element={ <Boe /> } />
           <Route path="/bocyl" element={ <Bocyl /> } />
+          <Route path="/bops" element={ <Bops /> } />
         </Routes>
       </div>
     </div>

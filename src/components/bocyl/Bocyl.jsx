@@ -3,6 +3,7 @@ import useStore from "../../useStore"
 import Results from "./Results"
 import { format } from "date-fns/format"
 import bocylService from "../../services/bocyl"
+import getBocylUrl from "../../utils/getBocylUrl"
 
 const Bocyl = () => {
   const [bocyl, setBocyl] = useState(null)
@@ -10,6 +11,8 @@ const Bocyl = () => {
   const { date } = useStore(state => ({
     date: state.date,
   }))
+
+  const bocylUrl = getBocylUrl(date)
 
   useEffect(() => {
     const fetchData = async() => {
@@ -33,7 +36,16 @@ const Bocyl = () => {
       </div>
     ) 
     : (
-      <h1>No hay datos de este día</h1>
+      <div>
+        <h1 className="text-xl mb-4">No hay datos disponibles sobre este día</h1>
+        { bocylUrl && 
+          <a target="_blank" className="text-blue-950 underline" href={bocylUrl}>Haz click aquí para acceder a la página oficial</a>
+        }
+        <div>
+
+        </div>
+      </div>
+      
     )
 }
 

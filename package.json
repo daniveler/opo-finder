@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://daniveler.github.io/opo-finder/",
+  "homepage": "https://daniveler.github.io/opo-finder/#",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",

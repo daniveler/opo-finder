@@ -20,13 +20,11 @@ const Header = () => {
         Opo Finder
       </h1>
 
-      <header>
-        <nav className="mt-8 font-medium text-pink-500 bg-pink-200">
-          <div className="flex flex-row w-[800px] justify-center items-center">
-            <Link to='/boe' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOE</Link>
-            <Link to='/bocyl' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOCyL</Link>
-            <Link to='/bops' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOPs</Link>
-          </div>
+      <header className="flex flex-row justify-center items-center ">
+        <nav className="flex flex-row justify-center items-center mt-8 w-[300px] sm:w-[600px] md:w-[750px] font-medium text-pink-500 bg-pink-200">
+          <Link to='/boe' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOE</Link>
+          <Link to='/bocyl' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOCyL</Link>
+          <Link to='/bops' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOPs</Link>
         </nav>
       </header>
 

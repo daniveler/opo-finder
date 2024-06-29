@@ -7,10 +7,10 @@ import { Navigate, Route, Routes } from "react-router-dom"
 
 function App() {
   return (
-    <div className="flex flex-col justify-center items-center mx-4 w-[800]">
+    <div className="flex flex-col justify-center items-center mx-4">
       <Header /> 
       
-      <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
+      <div className="flex flex-col mb-12">
         <Routes>
           <Route path="/" element={ <Navigate replace to="/boe" /> } />
           <Route path="/boe" element={ <Boe /> } />

@@ -22,7 +22,7 @@ function Boe() {
   return (
     sections.length > 0
       ? (
-        <div className="flex flex-col mb-12 min-w-[400px] max-w-[800px]">
+        <div className="flex flex-col mb-12">
           <div>
             <h1 className="flex text-5xl justify-center my-4">
               BOE

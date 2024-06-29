@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      // This script will handle the redirection for GitHub Pages
+      document.addEventListener('DOMContentLoaded', function () {
+        const redirectUrl = window.location.pathname.substring(1);
+        if (redirectUrl) {
+          window.location.replace('/?' + redirectUrl);
+        }
+      });
+    </script>
+  </head>
+  <body></body>
+</html>

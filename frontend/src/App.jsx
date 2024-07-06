@@ -10,7 +10,7 @@ function App() {
     <div className="flex flex-col justify-center items-center mx-4">
       <Header /> 
       
-      <div className="flex flex-col mb-12">
+      <div className="flex flex-col mb-12 max-w-[800px]">
         <Routes>
           <Route path="/" element={ <Navigate replace to="/boe" /> } />
           <Route path="/boe" element={ <Boe /> } />

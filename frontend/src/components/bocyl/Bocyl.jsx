@@ -12,11 +12,11 @@ const Bocyl = () => {
     date: state.date,
   }))
 
-  const initializeDate = useStore((state) => state.initializeDate);
+  const initializeDate = useStore((state) => state.initializeDate)
 
   useEffect(() => {
-    initializeDate();
-  }, [initializeDate]);
+    initializeDate()
+  }, [initializeDate])
 
   const bocylUrl = getBocylUrl(date)
 

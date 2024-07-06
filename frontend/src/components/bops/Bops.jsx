@@ -1,14 +1,14 @@
 const Bops = () => {
-  // const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
-  
-  // getBopsData(url).then(response => {
-  //   console.log(response)
-  // })
-
-  // console.log(headline)
+  const bopUrl = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
 
   return (
-    <p>Boletín</p>
+    <div>
+      <h1 className="text-xl mb-4">No hay datos disponibles sobre este día</h1>
+        <a target="_blank" className="text-blue-950 underline" href={bopUrl}>Haz click aquí para acceder a la página oficial</a>
+      <div>
+
+      </div>
+    </div>
   )
 } 
 

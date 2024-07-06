@@ -1,11 +1,9 @@
-import getBopsData from "../../utils/scrapper"
-
 const Bops = () => {
-  const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
+  // const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
   
-  getBopsData(url).then(response => {
-    console.log(response)
-  })
+  // getBopsData(url).then(response => {
+  //   console.log(response)
+  // })
 
   // console.log(headline)
 

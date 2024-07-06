@@ -4,6 +4,7 @@ import Bops from "./components/bops/Bops.jsx"
 import Header from "./components/Header"
 import Boe from "./components/boe/Boe.jsx"
 import { Navigate, Route, Routes } from "react-router-dom"
+import { useStore } from "zustand"
 
 function App() {
   return (

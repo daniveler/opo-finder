@@ -10,6 +10,12 @@ function Boe() {
     date: state.date,
   }))
 
+  const initializeDate = useStore((state) => state.initializeDate)
+
+  useEffect(() => {
+    initializeDate()
+  }, [initializeDate])
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await getBoeSections(date)

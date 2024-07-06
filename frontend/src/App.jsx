@@ -8,7 +8,7 @@ import { useStore } from "zustand"
 
 function App() {
   return (
-    <div className="flex flex-col justify-center items-center mx-4">
+    <div className="flex flex-col justify-center items-center mx-4 font-normal font-poppins">
       <Header /> 
       
       <div className="flex flex-col mb-12 max-w-[800px]">

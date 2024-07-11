@@ -1,7 +1,6 @@
 import { format } from "date-fns"
-import useStore from "../useStore"
+import useStore from "../../useStore"
 import { Link, Navigate } from "react-router-dom"
-import AppIcon from '../../public/opofinder-icon.jpg'
 
 const Header = () => {
   const { date, setDate } = useStore(state => ({
@@ -18,7 +17,6 @@ const Header = () => {
   return (
     <div className="flex flex-col mt-16 mb-16">
       <div className="flex flex-row items-center justify-center">
-        {/* <img className="size-36 left-0" src={AppIcon} alt='Logo'/> */}
         <h1 className='text-6xl text-center text-pink-500'>
           Opo Finder
         </h1>
@@ -35,7 +33,6 @@ const Header = () => {
 
       <form className="flex flex-col justify-center items-center mt-8">
         <label className="mb-4" htmlFor="dateInput">Selecciona una fecha:</label>
-        {/* <DatePicker max={actualDate} value={date} onChange={handleDateChange}/>  */}
 
         <div className="">
           <input id="dateInput" type="date" max={actualDate} value={date} onChange={handleDateChange}></input>

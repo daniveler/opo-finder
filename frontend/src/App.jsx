@@ -1,10 +1,9 @@
-import DatePicker from "./components/boe/DatePicker"
 import Bocyl from "./components/bocyl/Bocyl.jsx"
 import Bops from "./components/bops/Bops.jsx"
-import Header from "./components/Header"
 import Boe from "./components/boe/Boe.jsx"
 import { Navigate, Route, Routes } from "react-router-dom"
 import { useStore } from "zustand"
+import Header from "./components/header/Header.jsx"
 
 function App() {
   return (

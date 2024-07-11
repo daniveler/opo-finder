@@ -1,6 +1,6 @@
 import { format } from "date-fns"
 import useStore from "../../useStore"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useLocation } from "react-router-dom"
 
 const Header = () => {
   const { date, setDate } = useStore(state => ({
@@ -13,6 +13,8 @@ const Header = () => {
   }
 
   const actualDate = format(new Date(), 'yyyy-MM-dd')
+
+  const location = useLocation()
 
   return (
     <div className="flex flex-col mt-16 mb-16">
@@ -31,13 +33,16 @@ const Header = () => {
         </nav>
       </header>
 
-      <form className="flex flex-col justify-center items-center mt-8">
-        <label className="mb-4" htmlFor="dateInput">Selecciona una fecha:</label>
+      {location.pathname !== '/bops' && (
+        <form className="flex flex-col justify-center items-center mt-8">
+          <label className="mb-4" htmlFor="dateInput">Selecciona una fecha:</label>
 
-        <div className="">
-          <input id="dateInput" type="date" max={actualDate} value={date} onChange={handleDateChange}></input>
-        </div>
-      </form>
+          <div className="">
+            <input id="dateInput" type="date" max={actualDate} value={date} onChange={handleDateChange}></input>
+          </div>
+        </form>
+      )}
+
     </div>
   )
 }

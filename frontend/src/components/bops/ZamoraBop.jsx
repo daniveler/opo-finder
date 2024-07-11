@@ -12,7 +12,7 @@ const ZamoraBop = ({ bop }) => {
           <li key={`bop-zamora-${index}`}>
             <h1 className="text-2xl mb-2 mt-4">{item.subHeader}</h1>
             <h2 className="text-xl mb-2">{item.organismo}</h2>
-            <p>{item.text}</p>
+            <p className="text-justify">{item.text}</p>
             <div className="flex flex-row items-center justify-center mt-4 mb-8">
               <LinkButton style='pdf' link={item.pdfLink}></LinkButton>
             </div>

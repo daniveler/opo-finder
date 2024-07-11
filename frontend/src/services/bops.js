@@ -1,8 +1,9 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/bops'
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const getZamoraBop = async() => {
-  const request = await axios.get(`${baseUrl}/zamora`)
+  const request = await axios.get(`${baseUrl}bops/zamora`)
   return request.data
 }
 

@@ -10,8 +10,8 @@ const Links = ({ origin, pdf, html }) => {
 
   return (
     <div className="flex flex-row justify-center items-center gap-x-8 md:gap-x-16 mt-4 mb-8">
-      <LinkButton style='pdf' link={pdf} text='PDF'/>
-      <LinkButton style='web' link={html} text='Web'/>
+      <LinkButton style='pdf' link={pdf} />
+      <LinkButton style='web' link={html} />
     </div>
   )
   

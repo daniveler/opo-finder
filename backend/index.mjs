@@ -1,7 +1,6 @@
-import axios from 'axios'
 import express from 'express'
 import cors from 'cors'
-import { load } from 'cheerio'
+import puppeteer from 'puppeteer'
 
 const PORT = 3001
 
@@ -9,27 +8,54 @@ const app = express()
 
 app.use(cors())
 
-app.get('/api/bops', async (request, response) => {
+app.get('/api/bops/zamora', async (request, response) => {
   const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
 
-  const bop = await axios.get(url, {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+  const browser = await puppeteer.launch()
+  const page = await browser.newPage()
+  await page.goto(url, { waitUntil: 'networkidle2' })
+
+  const firstBop = await page.evaluate(() => {
+    const url = document.querySelector('.list-entry .heading a')
+    const date = document.querySelector('.list-entry .teaser-date').textContent.trim()
+    
+    return  {
+      url: url ? url.href : null,
+      date
     }
   })
 
-  const $ = load(bop.data)
-  //#li_0fd4d91b > ul > li:nth-child(1) > div > div > div.heading > a > h3 > span.headline
-  const listEntries = $('.list-entries').children()
-  let returnedData = []
+  if(firstBop) {
+    await page.goto(firstBop.url, { waitUntil: 'networkidle2' })
 
-  listEntries.each((index, element) => {
-    returnedData.push(`List entry ${index}: ${$(element).html()}`)
-  })
+    const bopEntry = await page.evaluate(() => {
+      const anuncios = []
 
-  response.status(200).json({ bop: returnedData })
+      document.querySelectorAll('#anuncio').forEach(element => {
+        const subHeader = element.querySelector('.sub-header')?.textContent.trim()
+        const organismo = element.querySelector('li span')?.textContent.trim()
+        const text = element.querySelector('.text')?.textContent.trim()
+        const pdfLink = element.querySelector('.link a')?.href
+
+        anuncios.push({
+          subHeader,
+          organismo,
+          text,
+          pdfLink
+        })
+      })
+
+      return anuncios
+    })
+
+    await browser.close()
+
+    response.status(200).json({ date: firstBop.date, content: bopEntry })
+  }
+
+  
 })
 
 app.listen(PORT, () => {
-  console.log(`API running on port localhost:${PORT}/api`)
+  console.log(`API running on port localhost:${PORT}/api/bops/zamora`)
 })

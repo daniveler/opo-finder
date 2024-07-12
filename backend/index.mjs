@@ -11,15 +11,21 @@ app.use(cors())
 app.get('/api/bops/zamora', async (request, response) => {
   const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
 
-  const browser = await puppeteer.launch({
-    args: [
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--single-process",
-      "--no-zygote"
-    ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
-  })
+  const puppeteerConfig = {} 
+
+  if(process.env.NODE_ENV === 'production') {
+    puppeteerConfig = {
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+      ],
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
+    }
+  }
+
+  const browser = await puppeteer.launch(puppeteerConfig)
 
   const page = await browser.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })

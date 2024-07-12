@@ -5,12 +5,12 @@
   "type": "module",
   "homepage": "https://daniveler.github.io/opo-finder/#",
   "scripts": {
-    "dev": "vite",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "build": "vite build",
+    "dev": "cross-env NODE_ENV=development vite",
+    "predeploy": "cross-env NODE_ENV=production npm run build",
+    "deploy": "cross-env NODE_ENV=production gh-pages -d dist",
+    "build": "cross-env NODE_ENV=production vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "cross-env NODE_ENV=production vite preview"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

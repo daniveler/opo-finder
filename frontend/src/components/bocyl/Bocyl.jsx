@@ -4,9 +4,11 @@ import Results from "./Results"
 import { format } from "date-fns/format"
 import bocylService from "../../services/bocyl"
 import getBocylUrl from "../../utils/getBocylUrl"
+import LoadingSpinner from "../common/LoadingSpinner"
 
 const Bocyl = () => {
   const [bocyl, setBocyl] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const { date } = useStore(state => ({
     date: state.date,
@@ -26,11 +28,17 @@ const Bocyl = () => {
 
       const bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
 
+      setLoading(false)
       setBocyl(bocylJson)
     }
 
+    setLoading(true)
     fetchData()
   }, [date])
+
+  if (loading) {
+    return <LoadingSpinner /> 
+  }
 
   return bocyl && bocyl.total_count > 0 
     ? (

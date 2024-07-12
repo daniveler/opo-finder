@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import puppeteer from 'puppeteer'
 
-const PORT = 3001
+const PORT = process.env.port || 3001
 
 const app = express()
 
@@ -12,6 +12,7 @@ app.get('/api/bops/zamora', async (request, response) => {
   const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
 
   const browser = await puppeteer.launch()
+
   const page = await browser.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })
 
@@ -49,13 +50,14 @@ app.get('/api/bops/zamora', async (request, response) => {
     })
 
     await browser.close()
-
+    
     response.status(200).json({ date: firstBop.date, content: bopEntry })
   }
-
-  
+  else {
+    response.status(404).json({ error: 'No data found' })
+  }
 })
 
 app.listen(PORT, () => {
-  console.log(`API running on port localhost:${PORT}/api/bops/zamora`)
+  console.log(`API running on port: ${PORT}`)
 })

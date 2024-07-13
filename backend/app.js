@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import bopsRouter from './controllers/bopsRouter.mjs'
+import bopsRouter from './controllers/bopsRouter.js'
 
 const app = express()
 

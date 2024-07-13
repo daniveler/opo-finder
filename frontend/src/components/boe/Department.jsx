@@ -2,7 +2,7 @@ import Epigraph from "./Epigraph"
 
 const Department = (props) => {
   return (
-    <div className="mb-12">
+    <div className="mb-4">
       <p className="text-2xl mt-2 mb-2">
         {props.department._attributes.nombre}
       </p>

@@ -40,24 +40,28 @@ const processDepartamentos = (departamentos) => {
       // If "departamento" has an "item" element
       if (departamento.item !== undefined) {
         return {
+          code: departamento.codigo,
           name: departamento.nombre,
           items: processItems(normalizeToArray(departamento.item))
         }
       }
       else if (departamento?.texto?.item !== undefined) {
         return {
+          code: departamento.codigo,
           name: departamento.nombre,
           items: processItems(normalizeToArray(departamento.texto.item))
         }
       }  
       else if (departamento?.texto?.epigrafe !== undefined) {
         return {
+          code: departamento.codigo,
           name: departamento.nombre,
           ephigraphs: processEpigrafes(normalizeToArray(departamento.texto.epigrafe))
         }
       }  
       else {
         return {
+          code: departamento.codigo,
           name: departamento.nombre,
           ephigraphs: processEpigrafes(normalizeToArray(departamento.epigrafe))
         }

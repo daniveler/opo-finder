@@ -90,6 +90,7 @@ const processItems = (items) => {
   if (items && items.length > 0) {
     return items.map(item => {
       return {
+        id: item.identificador,
         title: item.titulo,
         linkPdf: item.url_pdf.texto,
         linkHtml: item.url_html

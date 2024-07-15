@@ -28,7 +28,18 @@ boeRouter.get('/', async(req, res) => {
 
   const boeData = processBoe(response.data.data.sumario.diario)
 
-  res.status(200).json(boeData)
+  if(!req.query.section) {
+    return res.status(200).json(boeData)
+  }
+
+  const section = boeData.sections.filter(s => s.code.toLowerCase() === req.query.section.toLowerCase())
+
+  if(section.length > 0) {
+    return res.status(200).json(section.at(0))
+  }
+  else {
+    return res.status(404).json({ error: 'Section requested was not found'})
+  }
 })
 
 export default boeRouter

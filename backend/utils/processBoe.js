@@ -1,15 +1,16 @@
 import normalizeToArray from './normalizeToArray.js'
 
 const processBoe = (data) => {
-  return processDiarios(normalizeToArray(data))
+  const diarios = processDiarios(normalizeToArray(data))
+  return diarios.at(0)
 }
 
 const processDiarios = (diarios) => {
   if (diarios && diarios.length > 0) {
     return diarios.map(diario => {
       return {
-        numero: diario.numero,
-        secciones: processSecciones(normalizeToArray(diario.seccion))
+        number: diario.numero,
+        sections: processSecciones(normalizeToArray(diario.seccion))
       }
     })
   }
@@ -22,9 +23,9 @@ const processSecciones = (secciones) => {
   if (secciones && secciones.length > 0) {
     return secciones.map(seccion => {
       return {
-        codigo: seccion.codigo,
-        nombre: seccion.nombre,
-        departamentos: processDepartamentos(normalizeToArray(seccion.departamento))
+        code: seccion.codigo,
+        name: seccion.nombre,
+        departments: processDepartamentos(normalizeToArray(seccion.departamento))
       }
     })
   }
@@ -39,26 +40,26 @@ const processDepartamentos = (departamentos) => {
       // If "departamento" has an "item" element
       if (departamento.item !== undefined) {
         return {
-          nombre: departamento.nombre,
+          name: departamento.nombre,
           items: processItems(normalizeToArray(departamento.item))
         }
       }
       else if (departamento?.texto?.item !== undefined) {
         return {
-          nombre: departamento.nombre,
+          name: departamento.nombre,
           items: processItems(normalizeToArray(departamento.texto.item))
         }
       }  
       else if (departamento?.texto?.epigrafe !== undefined) {
         return {
-          nombre: departamento.nombre,
-          epigrafes: processEpigrafes(normalizeToArray(departamento.texto.epigrafe))
+          name: departamento.nombre,
+          ephigraphs: processEpigrafes(normalizeToArray(departamento.texto.epigrafe))
         }
       }  
       else {
         return {
-          nombre: departamento.nombre,
-          epigrafes: processEpigrafes(normalizeToArray(departamento.epigrafe))
+          name: departamento.nombre,
+          ephigraphs: processEpigrafes(normalizeToArray(departamento.epigrafe))
         }
       }
     })
@@ -85,7 +86,7 @@ const processItems = (items) => {
   if (items && items.length > 0) {
     return items.map(item => {
       return {
-        titulo: item.titulo,
+        title: item.titulo,
         linkPdf: item.url_pdf.texto,
         linkHtml: item.url_html
       }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Section from './Section'
-import getBoeSections from '../../utils/getBoeSections'
-import useStore from '../../useStore'
-import LoadingSpinner from '../common/LoadingSpinner'
+import useStore from '../../useStore.js'
+import LoadingSpinner from '../common/LoadingSpinner.jsx'
+import boeService from '../../services/boe.js'
+import Results from './Results.jsx'
 
-function Boe() {
-  const [sections, setSections] = useState([])
+const Boe = () => {
+  const [boe, setBoe] = useState(null)
+  const [section, setSection] = useState('2B')
   const [loading, setLoading] = useState(true)
 
   const { date } = useStore(state => ({
@@ -20,9 +21,16 @@ function Boe() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getBoeSections(date)
-      setLoading(false)
-      setSections(response)
+      try {
+        const response = await boeService.getBoeFromDate(date, section)
+        setLoading(false)
+        setBoe(response)
+      }
+      catch(e) {
+        setLoading(false)
+        setBoe(null)
+      }
+      
     }
 
     setLoading(true)
@@ -34,24 +42,17 @@ function Boe() {
   }
 
   return (
-    sections.length > 0
+    boe
       ? (
         <div className="flex flex-col">
-          <div>
-            <h1 className="flex text-5xl justify-center my-4">
-              BOE
-            </h1>
-          </div>
-          <div>
-            {
-              sections.map((section, index) =>
-                <Section key={index} section={section} />
-              )
-            }
-          </div>
+          <h1 className="flex text-5xl justify-center my-4">
+            BOE
+          </h1>
+
+          <Results boe={boe}/>
         </div>
       )
-      : <p>No hay datos de este día</p>
+      : <h1 className="text-xl mb-4">No hay datos disponibles sobre este día</h1>
   )
 }
 

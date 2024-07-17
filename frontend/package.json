@@ -14,11 +14,13 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
     "playwright": "^1.44.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
+    "uuid": "^10.0.0",
     "xml-js": "^1.6.11",
     "zustand": "^4.5.2"
   },

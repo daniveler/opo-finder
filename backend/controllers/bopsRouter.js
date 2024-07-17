@@ -6,10 +6,13 @@ const bopsRouter = express.Router()
 bopsRouter.get('/zamora', async (request, response) => {
   const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
 
-  const puppeteerConfig = {} 
+  const puppeteerConfig = { 
+    headless: true
+  } 
 
   if(process.env.NODE_ENV === 'production') {
     puppeteerConfig = {
+      headless: true,
       args: [
         "--disable-setuid-sandbox",
         "--no-sandbox",
@@ -58,11 +61,15 @@ bopsRouter.get('/zamora', async (request, response) => {
       return anuncios
     })
 
+    await page.close()
     await browser.close()
     
     response.status(200).json({ date: firstBop.date, content: bopEntry })
   }
   else {
+    await page.close()
+    await browser.close()
+
     response.status(404).json({ error: 'No data found' })
   }
 })

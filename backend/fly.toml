@@ -1,12 +1,10 @@
-# fly.toml app configuration file generated for opo-finder on 2024-07-12T12:37:59+02:00
+# fly.toml app configuration file generated for opo-finder on 2024-07-15T17:30:01+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'opo-finder'
 primary_region = 'mad'
-
-[build]
 
 [http_service]
   internal_port = 3001
@@ -17,6 +15,6 @@ primary_region = 'mad'
   processes = ['app']
 
 [[vm]]
-  memory = '1gb'
+  memory = '256mb'
   cpu_kind = 'shared'
   cpus = 1

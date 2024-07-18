@@ -58,17 +58,18 @@ bocylRouter.get('/', async (req, res) => {
           if (nextElem.is('p')) {
             const title = nextElem.text().trim()
 
-            const links = []
+            let links = {}
 
             nextElem.next('ul').find('li a').each((i, e) => {
               let link = $(e).attr('href')
 
               if (link.startsWith('html')) {
                 const baseUrl = 'https://bocyl.jcyl.es/'
-                link = baseUrl.concat(link)
+                links.html = baseUrl.concat(link)
               }
-
-              links.push(link)
+              else {
+                links.pdf = link
+              }
             })
 
             titles.push({ text: title, links })

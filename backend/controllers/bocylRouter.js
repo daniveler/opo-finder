@@ -91,7 +91,12 @@ bocylRouter.get('/', async (req, res) => {
     ? results.filter(r => r.section === req.query.section)
     : results
 
-  return res.status(200).json(filteredResults)
+  if (filteredResults.length > 0) {
+    return res.status(200).json(filteredResults)
+  }
+  else {
+    return res.status(404).json({ error: 'No results found' })
+  }
 })
 
 export default bocylRouter

@@ -71,7 +71,7 @@ bocylRouter.get('/', async (req, res) => {
               links.push(link)
             })
 
-            titles.push({ title, links })
+            titles.push({ text: title, links })
           }
           nextElem = nextElem.next()
         }

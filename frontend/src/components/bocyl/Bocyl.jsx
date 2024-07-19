@@ -11,7 +11,6 @@ const Bocyl = () => {
   const [bocyl, setBocyl] = useState(null)
   const [loading, setLoading] = useState(true)
 
-
   const { date, bocylArray, addBocylArray } = useStore(state => ({
     date: state.date,
     bocylArray: state.bocylArray,
@@ -38,11 +37,7 @@ const Bocyl = () => {
 
       const bocylParsedDate = format(date, 'yyyy/MM/dd')
 
-      const foundBocyl = await bocylArray.find(bocyl => {
-        console.log(parseISO(bocyl.date))
-        console.log(parseISO(date))
-        return isSameDay(parseISO(bocyl.date), parseISO(date))
-      })
+      const foundBocyl = await bocylArray.find(bocyl => isSameDay(parseISO(bocyl.date), parseISO(date)))
 
       // If the bocyl is not in data storage, we call the APIs
       if (!foundBocyl) {
@@ -75,7 +70,7 @@ const Bocyl = () => {
 
             setLoading(false)
             setBocyl({ isFromScrape: true, date: date, result: bocylApiResponse })
-            
+
             addBocylArray({
               date: date,
               isFromScrape: true,

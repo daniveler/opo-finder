@@ -24,8 +24,10 @@ const useStore = create(persist(set => ({
     bocylArray: [...state.bocylArray, newBocyl] 
   })),
   
-  bop: {},
-  setBop: (newBop) => set({ bop: newBop }),
+  bopArray: [],
+  addBopArray: (newBop) => set((state) => ({ 
+    bopArray: [...state.bopArray, newBop] 
+  })),
 
   // States for deleting local data
   localDataExpirationDate: null,

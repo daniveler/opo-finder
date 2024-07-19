@@ -13,24 +13,37 @@ const useStore = create(persist(set => ({
       set({ date: format(new Date(), 'yyyy-MM-dd') });
     }
   },
+
   boeArray: [],
   addBoeArray: (newBoe) => set((state) => ({
     boeArray: [...state.boeArray, newBoe]
   })),
+
   bocylArray: [],
-  setBocylArray: (newBocylArray) => set({ bocylArray: newBocylArray }),
+  addBocylArray: (newBocyl) => set((state) => ({ 
+    bocylArray: [...state.bocylArray, newBocyl] 
+  })),
+  
   bop: {},
   setBop: (newBop) => set({ bop: newBop }),
 
   // States for deleting local data
   localDataExpirationDate: null,
-  setLocalDataExpirationDate: (newExpirationDate) => set({ localDataExpirationDate: newExpirationDate}),
+  setLocalDataExpirationDate: (newExpirationDate) => set({ localDataExpirationDate: newExpirationDate }),
+
+  localDataBocylExpirationDate: null,
+  setLocalDataBocylExpirationDate: (newExpirationDate) => set({ localDataBocylExpirationDate: newExpirationDate }),
+  
   resetLocalData: () => set({ 
     localDataExpirationDate: null,
     boeArray: [],
-    bocylArray: [],
     bop: {}
    }),
+   
+   resetBocylLocalData: () => set({ 
+    localDataBocylExpirationDate: null,
+    bocylArray: []
+   })
 }),
   {
     name: 'opo-finder-storage'

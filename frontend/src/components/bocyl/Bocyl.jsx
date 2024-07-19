@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import useStore from "../../useStore"
 import Results from "./Results"
-import { format, parse } from "date-fns"
+import { format, isSameDay, parse, parseISO } from "date-fns"
 import bocylService from "../../services/bocyl"
 import getBocylUrl from "../../utils/getBocylUrl"
 import LoadingSpinner from "../common/LoadingSpinner"
@@ -11,8 +11,11 @@ const Bocyl = () => {
   const [bocyl, setBocyl] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  const { date } = useStore(state => ({
+
+  const { date, bocylArray, addBocylArray } = useStore(state => ({
     date: state.date,
+    bocylArray: state.bocylArray,
+    addBocylArray: state.addBocylArray
   }))
 
   const initializeDate = useStore((state) => state.initializeDate)
@@ -35,31 +38,59 @@ const Bocyl = () => {
 
       const bocylParsedDate = format(date, 'yyyy/MM/dd')
 
-      let bocylJson
-      
-      try {
-        bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
-      }
-      catch(e) {
-        bocylJson = { total_count: -1 }
-      }
+      const foundBocyl = await bocylArray.find(bocyl => {
+        console.log(parseISO(bocyl.date))
+        console.log(parseISO(date))
+        return isSameDay(parseISO(bocyl.date), parseISO(date))
+      })
 
-      if (bocylJson.total_count > 0) {
-        setLoading(false)
-        setBocyl({ isFromScrape: false, result: bocylJson })
+      // If the bocyl is not in data storage, we call the APIs
+      if (!foundBocyl) {
+        let bocylJson
+
+        try {
+          bocylJson = await bocylService.getBocylFromDate(bocylParsedDate)
+        }
+        catch (e) {
+          bocylJson = { total_count: -1 }
+        }
+
+        // If bocyl information of the date is in the API, we save it.
+        if (bocylJson.total_count > 0) {
+          setLoading(false)
+          setBocyl({ isFromScrape: false, date: date, result: bocylJson })
+
+          addBocylArray({
+            date: date,
+            isFromScrape: false,
+            result: bocylJson
+          })
+        }
+        // If bocyl information of the date is not in the API yet, 
+        // we call our own API.
+        else {
+          let bocylApiResponse
+          try {
+            bocylApiResponse = await bocylService.getBocylFromDateFromWeb(date, 'B. AUTORIDADES Y PERSONAL: B.2. OPOSICIONES Y CONCURSOS')
+
+            setLoading(false)
+            setBocyl({ isFromScrape: true, date: date, result: bocylApiResponse })
+            
+            addBocylArray({
+              date: date,
+              isFromScrape: true,
+              result: bocylApiResponse
+            })
+          }
+          catch (e) {
+            setLoading(false)
+            setBocyl(null)
+          }
+        }
       }
       else {
-        let bocylApiResponse 
-        try {
-          bocylApiResponse = await bocylService.getBocylFromDateFromWeb(date, 'B. AUTORIDADES Y PERSONAL: B.2. OPOSICIONES Y CONCURSOS')
-
-          setLoading(false)
-          setBocyl({ isFromScrape: true, result: bocylApiResponse })
-        }
-        catch(e) {
-          setLoading(false)
-          setBocyl(null)
-        }
+        setLoading(false)
+        setBocyl(foundBocyl)
       }
     }
 

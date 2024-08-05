@@ -1,77 +1,104 @@
 import express from 'express'
+import { load } from 'cheerio'
 import puppeteer from 'puppeteer'
+import axios from 'axios'
+import convertZamoraBopDate from '../utils/convertZamoraBopDate.js'
 
 const bopsRouter = express.Router()
 
 bopsRouter.get('/zamora', async (request, response) => {
-  const url = 'https://www.diputaciondezamora.es/opencms/servicios/BOP/bop'
+  const baseUrl = 'https://www.diputaciondezamora.es'
+  const url = baseUrl + '/opencms/system/modules/alkacon.mercury.template/elements/list-ajax.jsp?contentpath=/servicios/BOP/.content/list-m/list_00001.xml&__locale=es'
 
-  const puppeteerConfig = { 
-    headless: true
-  } 
+  let result 
 
-  if(process.env.NODE_ENV === 'production') {
-    puppeteerConfig = {
-      headless: true,
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
-      ],
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
+  try {
+    result = await axios.get(url)
+  }
+  catch(e) {
+    if(e.response) {
+      res.status(e.response.status).json({ error: e.message })
     }
+    else if(e.request) {
+      res.status(500).json({ error: e.request})
+    }
+    else {
+      res.status(500).json({ error: 'Internal Server Error'})
+    }
+    
+    return 
   }
 
-  const browser = await puppeteer.launch(puppeteerConfig)
+  const $ = load(result.data)
 
-  const page = await browser.newPage()
-  await page.goto(url, { waitUntil: 'networkidle2' })
+  const results = []
 
-  const firstBop = await page.evaluate(() => {
-    const url = document.querySelector('.list-entry .heading a')
-    const date = document.querySelector('.list-entry .teaser-date').textContent.trim()
-    
-    return  {
-      url: url ? url.href : null,
-      date
+  const promises = $('li.list-entry').map(async(index, element) => {
+    const title = $(element).find('.heading').text().trim()
+    const date = $(element).find('.teaser-date').text().trim()
+    let link = $(element).find('.heading').find('a').attr('href')
+
+    link = baseUrl + link
+
+    let linkResponse 
+
+    try {
+      linkResponse = await axios.get(link)
     }
+    catch(e) {
+      if(e.response) {
+        res.status(e.response.status).json({ error: e.message })
+      }
+      else if(e.request) {
+        res.status(500).json({ error: e.request})
+      }
+      else {
+        res.status(500).json({ error: 'Internal Server Error'})
+      }
+      
+      return 
+    }
+    
+    const $2 = load(linkResponse.data)
+
+    $2('#anuncio').each((index, element) => {
+      const subHeader = $2(element).find('.sub-header')
+      const origin = subHeader.next()
+      const organism = origin.next().find('li').first('span')
+      const text = $(element).find('.text')
+      const pdfLink = $(element).find('.link').find('a').attr('href')
+
+      results.push({
+        date: convertZamoraBopDate(date),
+        subHeader: subHeader.text().trim(), 
+        origin: origin.text().trim(), 
+        organism: organism.text().trim(), 
+        text: text.text().trim(), 
+        pdfLink: baseUrl + pdfLink
+      })
+    })
   })
 
-  if(firstBop) {
-    await page.goto(firstBop.url, { waitUntil: 'networkidle2' })
+  await Promise.all(promises)
 
-    const bopEntry = await page.evaluate(() => {
-      const anuncios = []
+  // Sorts all results descendently by date
+  const sortedResults = results.sort((a, b) => new Date(b.date) - new Date(a.date))
 
-      document.querySelectorAll('#anuncio').forEach(element => {
-        const subHeader = element.querySelector('.sub-header')?.textContent.trim()
-        const organismo = element.querySelector('li span')?.textContent.trim()
-        const text = element.querySelector('.text')?.textContent.trim()
-        const pdfLink = element.querySelector('.link a')?.href
+  // Groups the results by date
+  const groupedResults = sortedResults.reduce((acc, result) => {
+    if (!acc[result.date]) {
+      acc[result.date] = []
+    }
+    acc[result.date].push(result)
+    return acc
+  }, {})
 
-        anuncios.push({
-          subHeader,
-          organismo,
-          text,
-          pdfLink
-        })
-      })
+  const groupedArray = Object.keys(groupedResults).map(date => ({
+    date,
+    announcements: groupedResults[date]
+  }))
 
-      return anuncios
-    })
-
-    await page.close()
-    await browser.close()
-    
-    response.status(200).json({ date: firstBop.date, content: bopEntry })
-  }
-  else {
-    await page.close()
-    await browser.close()
-
-    response.status(404).json({ error: 'No data found' })
-  }
+  response.status(200).json({ results: groupedArray })
 })
 
 export default bopsRouter

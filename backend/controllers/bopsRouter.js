@@ -1,6 +1,5 @@
 import express from 'express'
 import { load } from 'cheerio'
-import puppeteer from 'puppeteer'
 import axios from 'axios'
 import convertZamoraBopDate from '../utils/convertZamoraBopDate.js'
 
@@ -64,15 +63,17 @@ bopsRouter.get('/zamora', async (request, response) => {
     $2('#anuncio').each((index, element) => {
       const subHeader = $2(element).find('.sub-header')
       const origin = subHeader.next()
-      const organism = origin.next().find('li').first('span')
+      const organism = origin.next().find('li').first('span').text().trim()
       const text = $(element).find('.text')
       const pdfLink = $(element).find('.link').find('a').attr('href')
+
+      const formattedOrganism = organism.split(' ')
 
       results.push({
         date: convertZamoraBopDate(date),
         subHeader: subHeader.text().trim(), 
         origin: origin.text().trim(), 
-        organism: organism.text().trim(), 
+        organism: formattedOrganism.splice(1).join(' '),
         text: text.text().trim(), 
         pdfLink: baseUrl + pdfLink
       })

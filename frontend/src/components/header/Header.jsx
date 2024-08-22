@@ -18,32 +18,30 @@ const Header = () => {
   const location = useLocation()
 
   return (
-    <div className="flex flex-col mt-16 mb-16">
+    <div className="flex flex-col mt-8 md:mt-16 mb-4 md:mb-8">
       <div className="flex flex-row items-center justify-center">
-        <h1 className='text-6xl text-center text-pink-500'>
+        <h1 className='text-4xl font-medium md:text-6xl text-center text-pink-500'>
           Opo Finder
         </h1>
       </div>
 
-
       <header className="flex flex-row justify-center items-center ">
-        <nav className="flex flex-row justify-center items-center mt-8 w-[350px] sm:w-[600px] md:w-[750px] text-xl font-poppins font-medium text-gray-600 bg-zinc-100">
+        <nav className="flex flex-row justify-center items-stretch mt-4 md:mt-8 w-[350px] sm:w-[600px] md:w-[750px] text-xl font-poppins font-medium text-gray-600">
           <Tab route='/boe'>BOE</Tab>
           <Tab route='/bocyl'>BOCyL</Tab>
-          <Tab route='/bops'>BOPs</Tab>
+          <Tab route='/bops'>BOP ZAMORA</Tab>
         </nav>
       </header>
 
       {location.pathname !== '/bops' && (
         <form className="flex flex-col justify-center items-center mt-8">
-          <label className="mb-4" htmlFor="dateInput">Selecciona una fecha:</label>
+          <label className="mb-2 text-lg" htmlFor="dateInput">Selecciona una fecha:</label>
 
           <div className="">
-            <input id="dateInput" type="date" max={actualDate} value={date} onChange={handleDateChange}></input>
+            <input className="text-lg p-1" id="dateInput" type="date" max={actualDate} value={date} onChange={handleDateChange}></input>
           </div>
         </form>
       )}
-
     </div>
   )
 }

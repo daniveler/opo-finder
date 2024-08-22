@@ -16,7 +16,7 @@ const Results = ({ boe }) => {
                 ephigraph.items.map(item => {
                   return (
                     <div key={item.id + "-div"} className="mb-4">
-                      <li className="text-base md:text-lg text-justify ml-2">
+                      <li className="text-base list-none md:text-lg text-justify">
                         {item.title}
                       </li>
 

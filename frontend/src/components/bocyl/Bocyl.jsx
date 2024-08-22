@@ -99,10 +99,6 @@ const Bocyl = () => {
 
   return (
     <div>
-      <h1 className="flex text-5xl justify-center my-4">
-        BOCYL
-      </h1>
-
       {!bocyl
         ? (
           <div>

@@ -67,10 +67,6 @@ const Boe = () => {
     boe
       ? (
         <div className="flex flex-col">
-          <h1 className="flex text-5xl justify-center my-4">
-            BOE
-          </h1>
-
           <Results boe={boe} />
         </div>
       )

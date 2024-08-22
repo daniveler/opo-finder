@@ -9,7 +9,7 @@ const ResultsFromScrape = ({ bocyl }) => {
           <p className="text-2xl mb-2">{department.name}</p>
           { department.titles.map((title, index) => (
           <div key={index + '-div-div'}>
-            <li className="text-base md:text-lg text-justify ml-2">{title.text}</li>
+            <li className="text-base list-none md:text-lg text-justify">{title.text}</li>
             <div className="mt-2">
               <Links key={index + "-links"} pdf={title.links.pdf} html={title.links.html} />
             </div>

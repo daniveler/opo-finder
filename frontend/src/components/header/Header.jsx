@@ -1,6 +1,7 @@
 import { format } from "date-fns"
 import useStore from "../../useStore"
-import { Link, Navigate, useLocation } from "react-router-dom"
+import { Link, Navigate, NavLink, useLocation } from "react-router-dom"
+import Tab from "./Tab"
 
 const Header = () => {
   const { date, setDate } = useStore(state => ({
@@ -26,10 +27,10 @@ const Header = () => {
 
 
       <header className="flex flex-row justify-center items-center ">
-        <nav className="flex flex-row justify-center items-center mt-8 w-[300px] sm:w-[600px] md:w-[750px] text-xl font-poppins font-medium text-pink-500 bg-pink-200">
-          <Link to='/boe' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOE</Link>
-          <Link to='/bocyl' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOCyL</Link>
-          <Link to='/bops' className="w-1/3 py-6 hover:bg-pink-100 text-center">BOPs</Link>
+        <nav className="flex flex-row justify-center items-center mt-8 w-[350px] sm:w-[600px] md:w-[750px] text-xl font-poppins font-medium text-gray-600 bg-zinc-100">
+          <Tab route='/boe'>BOE</Tab>
+          <Tab route='/bocyl'>BOCyL</Tab>
+          <Tab route='/bops'>BOPs</Tab>
         </nav>
       </header>
 

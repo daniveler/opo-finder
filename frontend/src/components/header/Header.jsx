@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <div className="flex flex-col mt-8 md:mt-16 mb-4 md:mb-8">
       <div className="flex flex-row items-center justify-center">
-        <h1 className='text-4xl font-medium md:text-6xl text-center text-pink-500'>
+        <h1 className='text-5xl font-medium md:text-6xl text-center text-pink-500'>
           Opo Finder
         </h1>
       </div>

@@ -69,7 +69,7 @@ const Bops = () => {
           <div className="flex flex-row w-full mb-8">
             {index < zamoraBop.length - 1 
               ?
-                <div className="flex w-1/2 justify-start text-lg md:text-2xl">
+                <div className="flex w-1/2 justify-start text-lg md:text-2xl py-4 md:py-8">
                   <button className="flex items-center text-indigo-500 hover:underline" onClick={handleIncreaseIndex}>
                     <span className="icon-[teenyicons--left-solid] size-4 md:size-6 mr-3"></span>
                     <span>Ir al anterior</span>
@@ -80,7 +80,7 @@ const Bops = () => {
             }
 
             {index > 0 && 
-              <div className="flex w-1/2 justify-end text-lg md:text-2xl">
+              <div className="flex w-1/2 justify-end text-lg md:text-2xl py-4 md:py-8">
                 <button className="flex items-center text-indigo-500 hover:underline" onClick={handleDecreaseIndex}>
                   <span>Ir al siguiente</span>
                   <span className="icon-[teenyicons--right-solid] size-4 md:size-6 ml-3"></span>

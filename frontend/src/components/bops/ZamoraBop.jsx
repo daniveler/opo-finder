@@ -1,4 +1,4 @@
-import LinkButton from "../buttons/LinkButton"
+import LinkButton from "../common/buttons/LinkButton.jsx"
 import formatBopDate from '../../utils/formatBopDate.js'
 
 const ZamoraBop = ({ bop }) => {

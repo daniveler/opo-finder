@@ -1,4 +1,4 @@
-import LinkButton from "./LinkButton"
+import LinkButton from "./LinkButton.jsx"
 
 const Links = ({ pdf, html }) => {
   return (

@@ -1,4 +1,4 @@
-import Links from "../buttons/Links"
+import Links from "../common/buttons/Links"
 
 const ResultsFromScrape = ({ bocyl }) => {
 

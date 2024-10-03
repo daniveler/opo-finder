@@ -16,13 +16,13 @@ bopsRouter.get('/zamora', async (request, response) => {
   }
   catch(e) {
     if(e.response) {
-      res.status(e.response.status).json({ error: e.message })
+      response.status(e.response.status).json({ error: e.message })
     }
     else if(e.request) {
-      res.status(500).json({ error: e.request})
+      response.status(500).json({ error: e.request})
     }
     else {
-      res.status(500).json({ error: 'Internal Server Error'})
+      response.status(500).json({ error: 'Internal Server Error'})
     }
     
     return 
@@ -46,13 +46,13 @@ bopsRouter.get('/zamora', async (request, response) => {
     }
     catch(e) {
       if(e.response) {
-        res.status(e.response.status).json({ error: e.message })
+        response.status(e.response.status).json({ error: e.message })
       }
       else if(e.request) {
-        res.status(500).json({ error: e.request})
+        response.status(500).json({ error: e.request})
       }
       else {
-        res.status(500).json({ error: 'Internal Server Error'})
+        response.status(500).json({ error: 'Internal Server Error'})
       }
       
       return 
@@ -69,8 +69,14 @@ bopsRouter.get('/zamora', async (request, response) => {
 
       const formattedOrganism = organism.split(' ')
 
+      const convertedDate = convertZamoraBopDate(date)
+
+      if(!convertedDate) {
+        throw new Error('Invalid date')
+      }
+
       results.push({
-        date: convertZamoraBopDate(date),
+        date: convertedDate,
         subHeader: subHeader.text().trim(), 
         origin: origin.text().trim(), 
         organism: formattedOrganism.splice(1).join(' '),
@@ -80,7 +86,13 @@ bopsRouter.get('/zamora', async (request, response) => {
     })
   })
 
-  await Promise.all(promises)
+  try {
+    await Promise.all(promises)
+  }
+  catch (e) {
+    return response.status(500).json({ error: 'Internal server error: ' + e.message })
+
+  }
 
   // Sorts all results descendently by date
   const sortedResults = results.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -99,7 +111,7 @@ bopsRouter.get('/zamora', async (request, response) => {
     announcements: groupedResults[date]
   }))
 
-  response.status(200).json({ results: groupedArray })
+  return response.status(200).json({ results: groupedArray })
 })
 
 export default bopsRouter

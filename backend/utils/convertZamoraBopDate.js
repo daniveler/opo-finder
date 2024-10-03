@@ -10,13 +10,18 @@ const convertZamoraBopDate = (date) => {
     "jun.": 6,
     "jul.": 7,
     "ago.": 8,
-    "sep.": 9,
+    "sept.": 9,
     "oct.": 10,
     "nov.": 11,
     "dic.": 12
   }
 
   const [month, day, year] = date.split(' ')
+  
+  if(!Object.keys(monthNames).includes(month)) {
+    return null
+  }
+
   const newDate = new Date(`${monthNames[month]} ${day.slice(0, -1)}, ${year}`)
 
   return format(newDate, 'yyyy-MM-dd')
